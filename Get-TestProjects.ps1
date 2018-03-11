@@ -44,5 +44,3 @@ function Get-TestProjects
     }    
     #return $projects    
 }
-
-Get-TestProjects -SolutionFilePath C:\tfs\WarehouseEnhance\Trunk\Master.sln
