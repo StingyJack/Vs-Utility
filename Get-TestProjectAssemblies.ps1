@@ -12,7 +12,7 @@ function Get-TestProjectAssemblies
     $testAssemblies = @()
     foreach ($testProject in $testProjects)
     {
-        $testAsm = Get-ProjectOutput -ProjFilePath $testProject -BuildConfiguration $BuildConfiguration -BuildPlatform $BuildPlatform
+        $testAsm = Get-PrimaryProjectOutput -ProjFilePath $testProject -BuildConfiguration $BuildConfiguration -BuildPlatform $BuildPlatform
         if ([System.String]::IsNullOrWhiteSpace($testAsm) -eq $false)
         {
             $testAssemblies += $testAsm

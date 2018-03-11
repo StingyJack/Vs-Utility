@@ -18,7 +18,7 @@ function Get-TestProjects
             continue
         }
 
-        if ($projectRelativePath.IndexOf("UnitTest", [System.StringComparison]::OrdinalIgnoreCase) -ge 0)
+        if ($projectFullPath.IndexOf("UnitTest", [System.StringComparison]::OrdinalIgnoreCase) -ge 0)
         {
             Write-Verbose "Project item detected in the UnitTest subfolder"
             $projects += $projectFullPath
@@ -27,8 +27,8 @@ function Get-TestProjects
             continue
         }
 
-        $projectIdentElements = @($lineSplits[0].Split(' '))
-        $projectName = $projectIdentElements[$projectIdentElements.Length - 1]
+        $projFileInfo = New-Object  System.IO.FileInfo -ArgumentList $projectFullPath
+        $projectName = $projFileInfo.BaseName
         
         if ($projectName.EndsWith("Tests", [System.StringComparison]::OrdinalIgnoreCase))
         {
@@ -40,6 +40,9 @@ function Get-TestProjects
         }
         
         # add in opening the csproj file and sniffing the project type guids and other properties
+        # $projFile = [xml](Get-Content -Path $projectFullPath)
     }    
     #return $projects    
 }
+
+Get-TestProjects -SolutionFilePath C:\tfs\WarehouseEnhance\Trunk\Master.sln
