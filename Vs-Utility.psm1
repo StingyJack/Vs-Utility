@@ -6,8 +6,8 @@ Export-ModuleMember -Function Remove-SolutionOutputs
 . ("$PSScriptRoot\Remove-AllProjectOutput.ps1")
 Export-ModuleMember -Function Remove-AllProjectOutput
 
-. ("$PSScriptRoot\Get-Projects.ps1")
-Export-ModuleMember -Function Get-Projects
+. ("$PSScriptRoot\Get-ProjectFiles.ps1")
+Export-ModuleMember -Function Get-ProjectFiles
 
 . ("$PSScriptRoot\Get-PrimaryProjectOutput.ps1")
 Export-ModuleMember -Function Get-PrimaryProjectOutput
@@ -39,8 +39,8 @@ Export-ModuleMember -Function Add-ResharperToggleButton
 . ("$PSScriptRoot\Remove-TrailingWhitespace.ps1")
 Export-ModuleMember -Function Remove-TrailingWhitespace
 
-. ("$PSScriptRoot\Get-WebProjects.ps1")
-Export-ModuleMember -Function Get-WebProjects
+. ("$PSScriptRoot\Get-WebProjectFiles.ps1")
+Export-ModuleMember -Function Get-WebProjectFiles
 
 . ("$PSScriptRoot\Find-ProjectAntipatterns.ps1")
 Export-ModuleMember -Function Find-ProjectAntipatterns

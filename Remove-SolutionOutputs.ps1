@@ -9,7 +9,7 @@ function Remove-SolutionOutputs
     )
     Write-Verbose "Getting projects"
 
-    $projects = Get-Projects $SolutionFilePath
+    $projects = Get-ProjectFiles $SolutionFilePath
     
     Write-Verbose "found $($projects.Count) projects"
     foreach($project in $projects)

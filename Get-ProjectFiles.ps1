@@ -1,4 +1,9 @@
-﻿function Get-Projects
+﻿<#
+    .SYNOPSIS
+    Gets all the project files for a solution
+#>
+
+function Get-ProjectFiles
 {
     [CmdletBinding()]
     Param(

@@ -1,6 +1,4 @@
-﻿. ("$PSScriptRoot\Get-Projects.ps1")
-
-<#
+﻿<#
     .SYNOPSIS
     This returns a set of objects composed of (ProjectName, ProjectPath, PropertyName, PropertyValue)
 #>
@@ -15,7 +13,7 @@ function Get-ProjectsWithProperty
     
     [PSObject[]]$returnValue = @()
 
-    $projectFilePaths = Get-Projects -SolutionFilePath $SolutionFilePath
+    $projectFilePaths = Get-ProjectFiles -SolutionFilePath $SolutionFilePath
     foreach ($projectFilePath in $projectFilePaths)
     {
         $projFileContent = [xml] (Get-Content -Path $projectFilePath)

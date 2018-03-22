@@ -8,7 +8,7 @@ function Get-TestProjects
 
     Write-Verbose "Using solution $SolutionFilePath"
         
-    $allProjects = Get-Projects -SolutionFilePath $SolutionFilePath
+    $allProjects = Get-ProjectFiles -SolutionFilePath $SolutionFilePath
     $projects = @()
     foreach ($projectFullPath in $allProjects)
     {

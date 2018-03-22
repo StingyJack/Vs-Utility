@@ -1,4 +1,10 @@
-﻿function Remove-AllProjectOutput
+﻿<#
+    .SYNOPSIS
+    Removes all project outputs regardless of build configuration, including the obj folder
+
+#>
+
+function Remove-AllProjectOutput
 {
     [CmdletBinding()]
     Param(

@@ -1,5 +1,4 @@
-﻿. ("$PSScriptRoot\Get-Projects.ps1")
-
+﻿
 function Find-References
 {
     [CmdletBinding()]
@@ -10,7 +9,7 @@ function Find-References
 
     Write-Verbose "Using solution $SolutionFilePath"
         
-    $allProjects = Get-Projects -SolutionFilePath $SolutionFilePath
+    $allProjects = Get-ProjectFiles -SolutionFilePath $SolutionFilePath
     Write-Verbose "There are $($allProjects.Count) projects in this solution"
     [PSObject[]]$matches = @()
     foreach($projectFile in $allProjects)

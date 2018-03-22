@@ -1,4 +1,6 @@
-﻿function Find-ProjectAntipatterns
+﻿
+
+function Find-ProjectAntipatterns
 {
     [CmdletBinding()]
     Param(
@@ -9,10 +11,11 @@
 
     Add-Type -TypeDefinition (Get-ApType)
 
+    #projects with non-content things set to content (packages.config, *.snk, )  and published mistakenly
 
 }
 
-
+#can diagnostic
 function Get-ApType
 {
     return @"

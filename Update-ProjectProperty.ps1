@@ -3,7 +3,7 @@
     Updates (Removes for now) a project property from a proj file
 
     .EXAMPLE
-    Update-ProjectProperty -ProjectFilePath C:\tfs\VisiTrak\Trunk\Source\Connector\Device\Connector.Device.Printer\Connector.Device.Printer.csproj -PropertyName CodeAnalysisRuleSet -Remove -PendChange -Verbose
+    Update-ProjectProperty -ProjectFilePath C:\code\repo\src\Project1\Project1.csproj -PropertyName CodeAnalysisRuleSet -Remove -PendChange -Verbose
 #>
 
 function Update-ProjectProperty
