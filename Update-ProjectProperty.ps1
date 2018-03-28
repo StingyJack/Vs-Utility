@@ -1,24 +1,44 @@
 ﻿<#
     .SYNOPSIS
-    Updates (Removes for now) a project property from a proj file
+    Updates or removes a project property from a proj file
 
     .EXAMPLE
     Update-ProjectProperty -ProjectFilePath C:\code\repo\src\Project1\Project1.csproj -PropertyName CodeAnalysisRuleSet -Remove -PendChange -Verbose
+
+    .EXAMPLE 
+    Update-ProjectProperty -ProjectFilePath " C:\code\repo\src\Project1\Project1.csproj" -PropertyName CodeAnalysisRuleSet -Value "SecurityRules.ruleset" -PropertyGroupCondition "== 'CodeAnalysis|" -PendChange -Verbose
 #>
 
 function Update-ProjectProperty
 {
     [CmdletBinding()]
     Param(
+        [Parameter(Mandatory=$true)]
         [string] $ProjectFilePath,
+        [Parameter(Mandatory=$true)]
         [string] $PropertyName,
-        [Parameter(Mandatory=$true)] #mandatory for now, dont feel like checking update logic
+
+        [Parameter(Mandatory=$true, ParameterSetName='Remove')] 
         [switch] $Remove,
+
+        [Parameter(Mandatory=$true, ParameterSetName='Update')] 
+        [string] $Value,
+
         [Parameter(Mandatory=$false)]
-        [switch] $PendChange
+        [switch] $PendChange,
+        
+        [Parameter(Mandatory=$false)]
+        [string] $PropertyGroupCondition
     )
 
-    Write-Verbose "Removing project property $PropertyName for project '$ProjectFilePath'"
+    if ($PSCmdlet.ParameterSetName -eq "Update")
+    {
+        Write-Verbose "Updating project property $PropertyName for project '$ProjectFilePath' to be '$Value'"
+    }
+    else
+    {
+        Write-Verbose "Removing project property $PropertyName for project '$ProjectFilePath'"
+    }
 
     $projFileContent = [xml](Get-Content -Path $ProjectFilePath)
 
@@ -33,19 +53,58 @@ function Update-ProjectProperty
         Write-Warning "Project file '$projectFilePath' does not have any <propertygroup> elements"
         return
     }
-
-    if (-Not ($projFileContent.Project.PropertyGroup | Where-Object {$_ | Get-Member -Name $PropertyName} ))
+    
+    $changesMade = $false
+    foreach ($propertyGroup in $projFileContent.Project.PropertyGroup)
     {
-        Write-Verbose "Project file '$projectFilePath' does not have any elements matching property name $PropertyName"
+        if ([string]::IsNullOrWhiteSpace($PropertyGroupCondition) -eq $false)
+        {
+            if ($propertyGroup.HasAttribute("Condition") -eq $false)
+            {
+                Write-Verbose "Property group condition '$PropertyGroupCondition' is specified, but this group has no condition"
+                continue
+            }
+
+            $condition = $propertyGroup.GetAttribute("Condition")
+
+            if ($condition.IndexOf($PropertyGroupCondition, [StringComparison]::OrdinalIgnoreCase) -lt 0)
+            {
+                Write-Verbose "Property group condition '$PropertyGroupCondition' is specified, but this group's condition ('$condition') doesnt match"
+                continue
+            }
+        }
+            
+        if (-Not ($propertyGroup | Get-Member -Name $PropertyName ))
+        {
+            Write-Verbose "Property group does not have the property '$PropertyName'"
+            continue
+        }
+         
+        if ($PSCmdlet.ParameterSetName -eq "Remove")
+        {
+            $propertyGroup.ChildNodes | Where-Object {$_.Name -eq $PropertyName} | ForEach-Object {[void]$_.ParentNode.RemoveChild($_)}
+            $changesMade = $true
+        }
+        else
+        {
+            $propertyGroup.ChildNodes | Where-Object {$_.Name -eq $PropertyName} | ForEach-Object {$_.InnerText = $Value}
+            $changesMade = $true
+        }           
+    
+    }
+
+    
+    if ($changesMade -eq $false)
+    {
+        Write-Verbose "Project file '$projectFilePath' does not have any changes to make."
         return
     }
-    
-    $propertyGroupsWithProperty= @($projFileContent.Project.PropertyGroup | Where-Object {$_ | Get-Member -Name $PropertyName})
-    foreach ($propertyGroupWithProperty in $propertyGroupsWithProperty)
+    else
     {
-        Write-Verbose "Locating property to remove in the group"
-        $propertyGroupWithProperty.ChildNodes | Where-Object {$_.Name -eq $PropertyName} | ForEach-Object {[void]$_.ParentNode.RemoveChild($_)}
+        Write-Verbose "Saving changes to project file"
+        $projFileContent.Save($ProjectFilePath)
     }
-
-    $projFileContent.Save($ProjectFilePath)
+    
+    
 }
+
