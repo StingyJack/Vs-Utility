@@ -26,7 +26,7 @@
                 $absPath = Join-Path -Path $projFolder -ChildPath $item.Include -Resolve
                 $isLinked = (-Not ([string]::IsNullOrWhiteSpace($item.Link)))
                 $subtype = if ($null -ne $item.SubType) {$item.SubType} else {"None"}
-                $copyToOutputDirectory = if ($null -ne $item.CopyToOutputDirectory) {  $item.CopyToOutputDirectory } else {"Never"}
+                $copyToOutputDirectory = if ($null -ne $item.CopyToOutputDirectory) {  $item.CopyToOutputDirectory } else {"Do not copy"}
                 $itemProps = @{'FullPath'=$absPath;'Path'=$item.Include;'IsLinked'=$isLinked;'Subtype'=$subtype;'CopyToOutputDirectory'=$copyToOutputDirectory}
                 $projItems += (New-Object -TypeName PSObject -Property $itemProps)
             }
@@ -38,5 +38,4 @@
     return $projItems
 }
 
-$pitems = Get-ProjectItems -ProjFilePath "E:\Projects\StingyBot\src\StingyBot.SalesForce\StingyBot.SalesForce.csproj" -ItemType None
-$pitems | FL
+
