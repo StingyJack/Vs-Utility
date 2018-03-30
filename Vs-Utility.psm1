@@ -44,3 +44,8 @@ Export-ModuleMember -Function Get-WebProjectFiles
 
 . ("$PSScriptRoot\Find-ProjectAntipatterns.ps1")
 Export-ModuleMember -Function Find-ProjectAntipatterns
+
+. ("$PSScriptRoot\Get-ProjectItems.ps1")
+Export-ModuleMember -Function Get-ProjectItems
+
+ 
