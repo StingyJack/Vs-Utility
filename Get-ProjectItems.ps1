@@ -17,6 +17,12 @@
     $projItems = @()
     foreach($projItemGroup in $projFileContent.Project.ItemGroup)
     {
+        if ($projItemGroup.GetType() -eq [System.String])
+        {
+            Write-Verbose "Empty project item group"
+            continue
+        }
+
         $items = $projItemGroup.GetElementsByTagName($ItemType)
 
         foreach ($item in $items)
@@ -27,7 +33,7 @@
                 $isLinked = (-Not ([string]::IsNullOrWhiteSpace($item.Link)))
                 $subtype = if ($null -ne $item.SubType) {$item.SubType} else {"None"}
                 $copyToOutputDirectory = if ($null -ne $item.CopyToOutputDirectory) {  $item.CopyToOutputDirectory } else {"Do not copy"}
-                $itemProps = @{'FullPath'=$absPath;'Path'=$item.Include;'IsLinked'=$isLinked;'Subtype'=$subtype;'CopyToOutputDirectory'=$copyToOutputDirectory}
+                $itemProps = @{'FullName'=$absPath;'Path'=$item.Include;'IsLinked'=$isLinked;'Subtype'=$subtype;'CopyToOutputDirectory'=$copyToOutputDirectory}
                 $projItems += (New-Object -TypeName PSObject -Property $itemProps)
             }
         }

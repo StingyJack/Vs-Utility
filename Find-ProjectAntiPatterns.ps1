@@ -1,4 +1,4 @@
-﻿
+﻿. .\Get-ProjectItems.ps1
 
 function Find-ProjectAntiPatterns
 {
@@ -16,40 +16,34 @@ function Find-ProjectAntiPatterns
 }
 
 
-function Get-ProjectItems
+function Find-NonContentContentIncludes
 {
     [CmdletBinding()]
     Param(
-        [string] $ProjFilePath,
-        [Parameter(Mandatory=$true)]
-        [ValidateSet('Compile','Content','None','Analyzer','Reference','EmbeddedResource')]
-        [string] $ItemType
+        [string] $ProjFilePath
     )
 
-    if (-Not (Test-Path $ProjFilePath)) {throw "Project file does not exist at '$ProjFilePath'"}
-
-    Write-Verbose "Checking project file '$ProjFilePath' for '$ItemType'"
-    $projFileContent = [xml](Get-Content $ProjFilePath)
-
-    $projItems = @()
-    foreach($projItemGroup in $projFileContent.Project.ItemGroup)
+    Add-Type -TypeDefinition (Get-HelperTypes)
+    $badPatterns = [VsUtility.Consts]::GetNonContentFilePatterns()
+    $items = @(Get-ProjectItems -ProjFilePath $ProjFilePath -ItemType Content)
+    $returnValue = @()
+    foreach ($item in $items)
     {
-        foreach ($projItem in $projItemGroup)
+        $fileName = [IO.Path]::GetFileName($item.FullName)
+        foreach ($badPattern in $badPatterns)
         {
-            if ($projItem.Name -ieq $ItemType)
+            if ($fileName -ilike $badPattern)
             {
-                
-
+                $locProps = @{'FilePath'= $item.FullName;'Code'="NCC";'Message'="Content file matches non-content pattern '$badPattern'"}
+                $returnValue += (New-Object -TypeName PSObject -Property $locProps)
+                continue
             }
         }
     }
-    
-    Write-Verbose "Project has $($projItems.Count) items"
 
-    return $projItems
+    return $returnValue
 }
 
-Get-ProjectItems -ProjFilePath "E:\Projects\Scripty\src\Scripty.MsBuild\Scripty.MsBuild.csproj" -ItemType  "Compile"
 #can diagnostic
 function Get-HelperTypes
 {
@@ -58,6 +52,7 @@ function Get-HelperTypes
     namespace VsUtility 
     {
         using System;
+        using System.Collections.Generic;
 
         public class Location
         {
@@ -69,7 +64,7 @@ function Get-HelperTypes
 
         public static class Consts
         {
-            public static List<string> GetNonContentFileNames()
+            public static List<string> GetNonContentFilePatterns()
             {
                 var files = new List<string>();
                 files.Add("*.snk");
@@ -83,3 +78,5 @@ function Get-HelperTypes
 "@
 
 }
+$ErrorActionPreference = 'Stop'
+Find-NonContentContentIncludes -ProjFilePath "E:\Projects\StingyBot\src\StingyBot.SalesForce\StingyBot.SalesForce.csproj"
