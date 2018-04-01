@@ -78,5 +78,3 @@ function Get-HelperTypes
 "@
 
 }
-$ErrorActionPreference = 'Stop'
-Find-NonContentContentIncludes -ProjFilePath "E:\Projects\StingyBot\src\StingyBot.SalesForce\StingyBot.SalesForce.csproj"
