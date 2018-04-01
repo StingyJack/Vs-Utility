@@ -1,4 +1,4 @@
-﻿. .\Get-ProjectItems.ps1
+﻿. "$PSScriptRoot\Get-ProjectItems.ps1"
 
 function Find-ProjectAntiPatterns
 {
