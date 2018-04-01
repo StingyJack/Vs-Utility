@@ -44,3 +44,6 @@ Export-ModuleMember -Function Get-WebProjectFiles
 
 . ("$PSScriptRoot\Find-ProjectAntipatterns.ps1")
 Export-ModuleMember -Function Find-ProjectAntipatterns
+
+. ("$PSScriptRoot\Remove-ProjectConfiguration.ps1")
+Export-ModuleMember -Function Remove-ProjectConfiguration
