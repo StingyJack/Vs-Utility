@@ -1,4 +1,4 @@
-﻿$ErrorActionPreference = "Stop"
+﻿#Requires -Version 5.1
 
 . ("$PSScriptRoot\Remove-SolutionOutputs.ps1")
 Export-ModuleMember -Function Remove-SolutionOutputs 

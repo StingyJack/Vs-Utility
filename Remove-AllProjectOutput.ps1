@@ -25,7 +25,7 @@ function Remove-AllProjectOutput
             if (Test-Path $absoluteOutputPath)
             {
                 Write-Host "Clearing $absoluteOutputPath"
-                Get-ChildItem $absoluteOutputPath -Include * -Recurse | ForEach-Object { if(Test-Path $_) {Remove-Item $_ -Force -Confirm:$false -Recurse } }  
+                Get-ChildItem $absoluteOutputPath -Include * -Recurse | ForEach-Object { if(Test-Path $_) {Remove-Item $_ -Force -Confirm:$false -Recurse -ErrorAction Continue } }  
                 $itemsRemain = @(Get-ChildItem -Path $absoluteOutputPath).Count
                 Write-Verbose "$($itemsRemain) items remaining"
             }

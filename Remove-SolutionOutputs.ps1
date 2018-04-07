@@ -17,6 +17,6 @@ function Remove-SolutionOutputs
         Write-Verbose "Working on project $project"
         Remove-AllProjectOutput $project
     }
-    Write-Host "Complete"
+    Write-Host "Removal of solution outputs is complete"
 }
 

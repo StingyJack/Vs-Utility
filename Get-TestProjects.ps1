@@ -1,4 +1,7 @@
-﻿
+﻿<#
+    .SYNOPSIS
+    Gets the paths to all the csproj files that are MSTest based unit test projects.
+#>
 function Get-TestProjects
 {
     [CmdletBinding()]

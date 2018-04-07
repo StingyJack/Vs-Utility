@@ -1,4 +1,5 @@
-﻿. "$PSScriptRoot\Get-ProjectItems.ps1"
+﻿# This is incomplete, but its supposed to find things that are going to be a problem later
+. "$PSScriptRoot\Get-ProjectItems.ps1"
 
 function Find-ProjectAntiPatterns
 {

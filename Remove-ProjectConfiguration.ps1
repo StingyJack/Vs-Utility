@@ -45,7 +45,7 @@ function Remove-ProjectConfiguration
             $configBackupPath = Join-Path -Path $RemovedElementPath -ChildPath ("RemovedProjectConfigs$((Get-Date).ToFileTime()).txt")
             Write-Verbose "Removed element backup path is a folder, using '$configBackupPath' to write the backup."
         }
-        elseif ($info.Exists)
+        elseif ([io.path]::GetDirectoryName($RemovedElementPath) -ine $RemovedElementPath)
         {
             $configBackupPath = $RemovedElementPath
             Write-Verbose "Removed element backup path is an existing file, using '$configBackupPath' to write the backup."

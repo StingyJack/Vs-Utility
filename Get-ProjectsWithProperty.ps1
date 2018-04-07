@@ -1,6 +1,6 @@
 ﻿<#
     .SYNOPSIS
-    This returns a set of objects composed of (ProjectName, ProjectPath, PropertyName, PropertyValue)
+    This returns a set of objects composed of (ProjectName, ProjectPath, PropertyName, PropertyValue) 
 #>
 function Get-ProjectsWithProperty
 {

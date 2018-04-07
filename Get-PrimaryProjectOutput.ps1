@@ -1,4 +1,8 @@
-﻿function Get-PrimaryProjectOutput
+﻿<#
+    .SYNOPSIS
+    Gets the primary output (a dll or exe) for a proj file.
+#>
+function Get-PrimaryProjectOutput
 {
     [CmdletBinding()]
     Param(

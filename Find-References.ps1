@@ -1,4 +1,7 @@
-﻿
+﻿<#
+    .SYNOPSIS
+    Finds a specific reference in any project in a solution. Uses the Match operator so partial reference names are ok.
+#>
 function Find-References
 {
     [CmdletBinding()]

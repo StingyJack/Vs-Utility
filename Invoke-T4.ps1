@@ -1,11 +1,13 @@
 <#
-
+    .SYNOPSIS
+    Runs all the Text Templating Toolkit Transformations in a search path. 
 #>
 function Invoke-T4
 {
     [CmdletBinding()]
     Param(
-        [string]$RootSearchPath
+        [string]$RootSearchPath,
+        [switch] $IncludePackagesFolder
     )
 
     Write-Verbose "Requested t4 regeneration for path '$RootSearchPath'"
@@ -21,7 +23,14 @@ function Invoke-T4
     $t4exePath = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\TextTransform.exe"
     $tfExePath = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\tf.exe"
     
-    $ttFiles = @(Get-ChildItem -Path $searchPath -Recurse -File -Include *.tt)
+    if ($IncludePackagesFolder.IsPresent)
+    {
+        $ttFiles = @(Get-ChildItem -Path $searchPath -Recurse -File -Include *.tt)
+    }
+    else
+    {
+        $ttFiles = @(Get-ChildItem -Path $searchPath -Recurse -File -Include *.tt | Where-Object {$_.FullName -notmatch "packages"})
+    }
     Write-Verbose "Found $($ttFiles.Count) tt files"
     foreach($ttFile in $ttFiles)
     {
@@ -54,3 +63,4 @@ function Invoke-T4
 
     Write-Output "Operation complete"
 }
+

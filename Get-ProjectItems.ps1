@@ -1,4 +1,8 @@
-﻿function Get-ProjectItems
+﻿<#
+    .SYNOPSIS
+    Gets VS project <Item> elements from a project
+#>
+function Get-ProjectItems
 {
     [CmdletBinding()]
     Param(

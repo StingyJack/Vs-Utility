@@ -1,4 +1,7 @@
-﻿
+﻿<#
+    .SYNOPSIS
+    Gets the primary output assembly paths for MSTest based unit test projects in a solution
+#>
 function Get-TestProjectAssemblies
 {
     [CmdletBinding()]

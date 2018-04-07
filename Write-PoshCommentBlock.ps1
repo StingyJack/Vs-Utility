@@ -1,4 +1,12 @@
-﻿function Write-PoshCommentBlock
+﻿<#
+
+    .SYNOPSIS
+    Not finished. Should create a comment based help block for a single function script, but the AST seems 
+    to parse similarly looking scripts differently.
+
+
+#>
+function Write-PoshCommentBlock
 {
     [CmdletBinding()]
     Param(
@@ -32,5 +40,3 @@
 #    Set-Content -Path $Path -Value $mixed
     $mixed
 }
-
-#Write-PoshCommentBlock -Path C:\tfs\Utility\DeploymentTools\posh\DeployApps\Merge-ConfigFile.ps1

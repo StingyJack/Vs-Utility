@@ -31,6 +31,11 @@ function Update-ProjectProperty
         [string] $PropertyGroupCondition
     )
 
+    if ($PSCmdlet.MyInvocation.BoundParameters.ContainsKey("ErrorAction") -eq $false)
+    {
+        $Script:ErrorActionPreference = "Stop"
+    }
+
     if ($PSCmdlet.ParameterSetName -eq "Update")
     {
         Write-Verbose "Updating project property $PropertyName for project '$ProjectFilePath' to be '$Value'"
@@ -97,14 +102,11 @@ function Update-ProjectProperty
     if ($changesMade -eq $false)
     {
         Write-Verbose "Project file '$projectFilePath' does not have any changes to make."
+        Write-Output "Project $ProjectFilePath was not updated"
         return
     }
-    else
-    {
-        Write-Verbose "Saving changes to project file"
-        $projFileContent.Save($ProjectFilePath)
-    }
     
-    
+    Write-Verbose "Saving changes to project file"
+    $projFileContent.Save($ProjectFilePath)
+    Write-Output "Project $ProjectFilePath has been updated"
 }
-

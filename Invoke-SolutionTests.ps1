@@ -1,4 +1,7 @@
-﻿
+﻿<#
+    .SYNOPSIS
+    Runs all the test projects in the solution for the config/platform
+#>
 function Invoke-SolutionTests
 {
     [CmdletBinding()]
@@ -18,7 +21,6 @@ function Invoke-SolutionTests
     }
 
     $testAssembliesArg = "`"" + [System.String]::Join("`" `"", $testAssemblies) + "`""
-    #$settingsPath = "C:\tfs\VisiTrak\Release\VT 7.6.1 Pre SP1\Master.runsettings"
     $solutionDir = Split-Path -Path $SolutionFilePath -Parent
     $runsettingsFiles = (Get-ChildItem -Path $solutionDir *.runsettings | Select-Object -First 1)
 

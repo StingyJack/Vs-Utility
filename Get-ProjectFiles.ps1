@@ -1,6 +1,6 @@
 ﻿<#
     .SYNOPSIS
-    Gets all the project files for a solution
+    Gets all the project file paths for a solution
 #>
 
 function Get-ProjectFiles
