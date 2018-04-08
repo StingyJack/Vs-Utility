@@ -37,7 +37,7 @@ function Remove-TrailingWhitespace
         Write-Host "Trailing whitespace removed from $countOfTrims lines"
         if ($DontAttemptCheckout.IsPresent -eq $false)
         {
-            Checkout-File -Path $Path
+            Edit-TfVcFile -Path $Path
  #           $tfExePath= "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\tf.exe"
  #           & $exe vc checkout $Path
         }

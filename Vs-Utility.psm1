@@ -50,3 +50,6 @@ Export-ModuleMember -Function Remove-ProjectConfiguration
 
 . ("$PSScriptRoot\Get-ProjectItems.ps1")
 Export-ModuleMember -Function Get-ProjectItems
+
+. ("$PSScriptRoot\Edit-TfVcFile.ps1")
+Export-ModuleMember -Function Edit-TfVcFile

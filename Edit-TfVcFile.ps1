@@ -1,7 +1,7 @@
 ﻿<#
     Marks a file as a pending change with TFS
 #>
-function Checkout-File
+function Edit-TfVcFile
 {
 	[CmdletBinding()]
 	Param(
