@@ -73,7 +73,7 @@ function Remove-ProjectConfiguration
     }
 
     
-    $propertyGroupCondition = " '`$(Configuration)|`$(Platform)' == '$BuildConfiguration|$($PlatformTarget.Replace(" ",[string]::Empty))' "
+    $propertyGroupCondition = "'`$(Configuration)|`$(Platform)' == '$BuildConfiguration|$($PlatformTarget.Replace(" ",[string]::Empty))'"
     $propertyGroupElementToRemove = $null
     foreach ($propertyGroup in $projFileContent.Project.PropertyGroup)
     {        

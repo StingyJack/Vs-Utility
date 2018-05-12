@@ -17,8 +17,8 @@ function Get-PrimaryProjectOutput
     $projFileContent = [xml] (Get-Content $projFilePath)
     $projectBuildPlatform = $BuildPlatform.Replace(" ", "")  #"Any CPU" to "AnyCPU"
 
-    $conditon = " '`$(Configuration)|`$(Platform)' == '$BuildConfiguration|$projectBuildPlatform' "
-    $propertyGroup = $projFileContent.Project.PropertyGroup | Where-Object {$_.Condition -eq $conditon}
+   $conditon = "'`$(Configuration)|`$(Platform)' == '$BuildConfiguration|$projectBuildPlatform'".Trim()
+    $propertyGroup = $projFileContent.Project.PropertyGroup | Where-Object {$null -ne $_.Condition -and $_.Condition.Trim() -ieq $conditon}
     if ($propertyGroup -eq $null)
     {
         Write-Warning "No build property group found that matches '$conditon'"
