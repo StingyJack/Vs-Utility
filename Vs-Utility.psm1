@@ -1,13 +1,22 @@
 ﻿#Requires -Version 5.1
 
-. ("$PSScriptRoot\Remove-SolutionOutputs.ps1")
-Export-ModuleMember -Function Remove-SolutionOutputs 
 
-. ("$PSScriptRoot\Remove-AllProjectOutput.ps1")
-Export-ModuleMember -Function Remove-AllProjectOutput
+#getters
+
+. ("$PSScriptRoot\Find-References.ps1")
+Export-ModuleMember -Function Find-References
+
+. ("$PSScriptRoot\Find-ProjectAntipatterns.ps1")
+Export-ModuleMember -Function Find-ProjectAntipatterns
 
 . ("$PSScriptRoot\Get-ProjectFiles.ps1")
 Export-ModuleMember -Function Get-ProjectFiles
+
+. ("$PSScriptRoot\Get-ProjectItems.ps1")
+Export-ModuleMember -Function Get-ProjectItems
+
+. ("$PSScriptRoot\Get-ProjectsWithProperty.ps1")
+Export-ModuleMember -Function Get-ProjectsWithProperty
 
 . ("$PSScriptRoot\Get-PrimaryProjectOutput.ps1")
 Export-ModuleMember -Function Get-PrimaryProjectOutput
@@ -18,38 +27,48 @@ Export-ModuleMember -Function Get-TestProjects
 . ("$PSScriptRoot\Get-TestProjectAssemblies.ps1")
 Export-ModuleMember -Function Get-TestProjectAssemblies
 
-. ("$PSScriptRoot\Invoke-SolutionTests.ps1")
-Export-ModuleMember -Function Invoke-SolutionTests
+. ("$PSScriptRoot\Get-WebProjectFiles.ps1")
+Export-ModuleMember -Function Get-WebProjectFiles
 
-. ("$PSScriptRoot\Find-References.ps1")
-Export-ModuleMember -Function Find-References
 
-. ("$PSScriptRoot\Get-ProjectsWithProperty.ps1")
-Export-ModuleMember -Function Get-ProjectsWithProperty
+
+
+#modifiers
+
+. ("$PSScriptRoot\Disable-SignAssembly.ps1")
+Export-ModuleMember -Function Disable-SignAssembly
+
+. ("$PSScriptRoot\Remove-SolutionOutputs.ps1")
+Export-ModuleMember -Function Remove-SolutionOutputs 
+
+. ("$PSScriptRoot\Remove-AllProjectOutput.ps1")
+Export-ModuleMember -Function Remove-AllProjectOutput
 
 . ("$PSScriptRoot\Update-ProjectProperty.ps1")
 Export-ModuleMember -Function Update-ProjectProperty
 
-. ("$PSScriptRoot\Invoke-T4.ps1")
-Export-ModuleMember -Function Invoke-T4
+
+
+
+#tooling
 
 . ("$PSScriptRoot\Add-ResharperToggleButton.ps1")
 Export-ModuleMember -Function Add-ResharperToggleButton
 
-. ("$PSScriptRoot\Remove-TrailingWhitespace.ps1")
-Export-ModuleMember -Function Remove-TrailingWhitespace
+. ("$PSScriptRoot\Edit-TfVcFile.ps1")
+Export-ModuleMember -Function Edit-TfVcFile
 
-. ("$PSScriptRoot\Get-WebProjectFiles.ps1")
-Export-ModuleMember -Function Get-WebProjectFiles
+. ("$PSScriptRoot\Invoke-SolutionTests.ps1")
+Export-ModuleMember -Function Invoke-SolutionTests
 
-. ("$PSScriptRoot\Find-ProjectAntipatterns.ps1")
-Export-ModuleMember -Function Find-ProjectAntipatterns
+. ("$PSScriptRoot\Invoke-T4.ps1")
+Export-ModuleMember -Function Invoke-T4
 
 . ("$PSScriptRoot\Remove-ProjectConfiguration.ps1")
 Export-ModuleMember -Function Remove-ProjectConfiguration
 
-. ("$PSScriptRoot\Get-ProjectItems.ps1")
-Export-ModuleMember -Function Get-ProjectItems
+. ("$PSScriptRoot\Remove-TrailingWhitespace.ps1")
+Export-ModuleMember -Function Remove-TrailingWhitespace
 
-. ("$PSScriptRoot\Edit-TfVcFile.ps1")
-Export-ModuleMember -Function Edit-TfVcFile
+
+

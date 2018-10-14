@@ -22,12 +22,12 @@ function Invoke-SolutionTests
 
     $testAssembliesArg = "`"" + [System.String]::Join("`" `"", $testAssemblies) + "`""
     $solutionDir = Split-Path -Path $SolutionFilePath -Parent
-    $runsettingsFiles = (Get-ChildItem -Path $solutionDir *.runsettings | Select-Object -First 1)
+    $runsettingsFile = (Get-ChildItem -Path $solutionDir *.runsettings | Select-Object -First 1)
 
     $defaultArgs = "/EnableCodeCoverage /logger:trx "
-    if ($runsettingsFiles)
+    if ($runsettingsFile)
     {
-        $defaultArgs += " /Settings:`"$settingsPath`" "
+        $defaultArgs += " /Settings:`"$runsettingsFile`" "
     }
 
     Write-Verbose "testAssembliesArg = '$testAssembliesArg'"

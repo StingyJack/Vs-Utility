@@ -29,7 +29,8 @@ function Find-References
             {
                 Write-Verbose "Match found for reference $($reference.Include)"
                 $props = @{'ProjectFile'=$projectFile;
-                            'ReferenceInclude'=$reference.Include}
+                            'ReferenceInclude'=$reference.Include;
+                            'ReferencePath'=$reference.HintPath;}
 
                 $obj = (New-Object -TypeName PSObject -Property  $props)
                 #$matches += $obj
