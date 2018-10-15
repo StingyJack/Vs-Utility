@@ -47,6 +47,8 @@ Export-ModuleMember -Function Remove-AllProjectOutput
 . ("$PSScriptRoot\Update-ProjectProperty.ps1")
 Export-ModuleMember -Function Update-ProjectProperty
 
+. ("$PSScriptRoot\Update-SolutionTargetFramework.ps1")
+Export-ModuleMember -Function Update-SolutionTargetFramework
 
 
 
