@@ -17,7 +17,7 @@ function Get-PrimaryProjectOutput
     $projFileContent = [xml] (Get-Content $projFilePath)
     $projectBuildPlatform = $BuildPlatform.Replace(" ", "")  #"Any CPU" to "AnyCPU"
 
-   $conditon = "'`$(Configuration)|`$(Platform)' == '$BuildConfiguration|$projectBuildPlatform'".Trim()
+    $conditon = "'`$(Configuration)|`$(Platform)' == '$BuildConfiguration|$projectBuildPlatform'".Trim()
     $propertyGroup = $projFileContent.Project.PropertyGroup | Where-Object {$null -ne $_.Condition -and $_.Condition.Trim() -ieq $conditon}
     if ($propertyGroup -eq $null)
     {
@@ -35,7 +35,19 @@ function Get-PrimaryProjectOutput
 	Write-Verbose "OutputType = ''$($outputType)'"
 
 	$fileExt = "dll"
-	if ($outputType -ne "Library")
+    if ($outputType -ieq "Database")
+    {
+        if ($propertyGroup | Get-Member -Name SqlTargetName -MemberType Property)
+        {
+            $asmName = $propertyGroup.SqlTargetName
+        }
+        elseif ($projFileContent.PropertyGroup | Get-Member -Name SqlTargetName -MemberType Property)
+        {
+            $asmName = $projFileContent.PropertyGroup.SqlTargetName
+        }
+        $fileExt = "dacpac"
+    }
+	elseif ($outputType -ne "Library")
 	{
 		$fileExt = "exe" #https://docs.microsoft.com/en-us/dotnet/api/vslangproj.prjoutputtype?view=visualstudiosdk-2017
 	}
@@ -53,3 +65,5 @@ function Get-PrimaryProjectOutput
 
     return $absoluteOutputFilePath
 }
+
+Get-PrimaryProjectOutput -ProjFilePath C:\tfs\WarehouseEnhance\Trunk\Source\WheDB\WheDB.sqlproj -BuildConfiguration Debug -BuildPlatform "AnyCPU"
