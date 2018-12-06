@@ -72,5 +72,8 @@ Export-ModuleMember -Function Remove-ProjectConfiguration
 . ("$PSScriptRoot\Remove-TrailingWhitespace.ps1")
 Export-ModuleMember -Function Remove-TrailingWhitespace
 
+. ("$PSScriptRoot\Show-NugetDisagreement.ps1")
+Export-ModuleMember -Function Show-NugetDisagreement
 
-
+. ("$PSScriptRoot\Find-SolutionAntipatterns.ps1")
+Export-ModuleMember -Function Find-SolutionAntipatterns

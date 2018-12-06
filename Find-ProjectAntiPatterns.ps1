@@ -1,6 +1,7 @@
 ﻿# This is incomplete, but its supposed to find things that are going to be a problem later
 . "$PSScriptRoot\Get-ProjectItems.ps1"
 
+
 function Find-ProjectAntiPatterns
 {
     [CmdletBinding()]
@@ -13,6 +14,10 @@ function Find-ProjectAntiPatterns
     Add-Type -TypeDefinition (Get-HelperTypes)
 
     #projects with non-content things set to content (packages.config, *.snk, )  and published mistakenly
+
+    $projFolder = Split-Path $ProjFilePath -Parent
+
+    Show-NugetDisagreement -ProjectFolder $projFolder
 
 }
 
