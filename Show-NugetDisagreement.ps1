@@ -11,6 +11,7 @@ function Show-NugetDisagreement
     )
 
     Write-Verbose "Searching for packages.config and a nuspec file in $ProjectFolder"
+    $projectFolderName = Split-Path -Path $ProjectFolder -Leaf
 
     $pathToPackageConfig = "$ProjectFolder\packages.config"
     $pathToNuspec = Get-ChildItem -Path $ProjectFolder -Filter *.nuspec | Select-Object -First 1 -ExpandProperty FullName
@@ -57,7 +58,7 @@ function Show-NugetDisagreement
                 }
                 else
                 {
-                    Write-Error "Package $($referencedPackage.id) version mismatch. Referenced version $($referencedPackage.version). Nuspec dependency version $($nuspecDependencyPackage.version)"
+                    Write-Error "Project folder $projectFolderName - $($referencedPackage.id) version mismatch. Referenced version $($referencedPackage.version). Nuspec dependency version $($nuspecDependencyPackage.version)"
                 }
 
                 break
@@ -68,7 +69,7 @@ function Show-NugetDisagreement
 
         if ($doesNuspecHaveReferencedPackage -eq $false)
         {
-            Write-Error "Nuspec file '$pathToNuspec' does not have package $($referencedPackage.id) / $($referencedPackage.version) in the dependencies list"
+            Write-Error "Project folder $projectFolderName - nuspec file '$pathToNuspec' does not have package $($referencedPackage.id) / $($referencedPackage.version) in the dependencies list"
         }
 
     }
