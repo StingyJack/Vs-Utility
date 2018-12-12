@@ -9,6 +9,9 @@ Export-ModuleMember -Function Find-References
 . ("$PSScriptRoot\Find-ProjectAntipatterns.ps1")
 Export-ModuleMember -Function Find-ProjectAntipatterns
 
+. ("$PSScriptRoot\Find-Shelveset.ps1")
+Export-ModuleMember -Function Find-Shelveset
+
 . ("$PSScriptRoot\Get-ProjectFiles.ps1")
 Export-ModuleMember -Function Get-ProjectFiles
 
@@ -30,7 +33,8 @@ Export-ModuleMember -Function Get-TestProjectAssemblies
 . ("$PSScriptRoot\Get-WebProjectFiles.ps1")
 Export-ModuleMember -Function Get-WebProjectFiles
 
-
+. ("$PSScriptRoot\Get-TfsTeamProjectCollectionUrlList")
+Export-ModuleMember -Function Get-TfsTeamProjectCollectionUrlList
 
 
 #modifiers

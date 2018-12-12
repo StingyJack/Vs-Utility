@@ -19,7 +19,7 @@ function Get-PrimaryProjectOutput
 
     $conditon = "'`$(Configuration)|`$(Platform)' == '$BuildConfiguration|$projectBuildPlatform'".Trim()
     $propertyGroup = $projFileContent.Project.PropertyGroup | Where-Object {$null -ne $_.Condition -and $_.Condition.Trim() -ieq $conditon}
-    if ($propertyGroup -eq $null)
+    if ($null -eq $propertyGroup)
     {
         Write-Warning "No build property group found that matches '$conditon'"
         return $null
@@ -65,5 +65,3 @@ function Get-PrimaryProjectOutput
 
     return $absoluteOutputFilePath
 }
-
-Get-PrimaryProjectOutput -ProjFilePath C:\tfs\WarehouseEnhance\Trunk\Source\WheDB\WheDB.sqlproj -BuildConfiguration Debug -BuildPlatform "AnyCPU"
