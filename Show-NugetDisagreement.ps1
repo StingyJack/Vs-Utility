@@ -58,7 +58,7 @@ function Show-NugetDisagreement
                 }
                 else
                 {
-                    Write-Host "Project folder $projectFolderName - $($referencedPackage.id) version mismatch. Referenced version $($referencedPackage.version). Nuspec dependency version $($nuspecDependencyPackage.version)" -ForegroundColor Red
+                    Write-Error "Project folder $projectFolderName - $($referencedPackage.id) version mismatch. Referenced version $($referencedPackage.version). Nuspec dependency version $($nuspecDependencyPackage.version)"
                 }
 
                 break
@@ -69,7 +69,7 @@ function Show-NugetDisagreement
 
         if ($doesNuspecHaveReferencedPackage -eq $false)
         {
-            Write-Host "Project folder $projectFolderName - nuspec file '$pathToNuspec' does not have package $($referencedPackage.id) / $($referencedPackage.version) in the dependencies list" -ForegroundColor Red
+            Write-Error "Project folder $projectFolderName - nuspec file '$pathToNuspec' does not have package $($referencedPackage.id) / $($referencedPackage.version) in the dependencies list"
         }
 
     }

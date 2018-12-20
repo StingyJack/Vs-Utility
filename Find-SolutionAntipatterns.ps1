@@ -20,5 +20,3 @@ function Find-SolutionAntipatterns
 
     Write-Output "command completed"
 }
-
-Find-SolutionAntipatterns "c:\tfs\ParcelPack\Trunk\ParcelPack.sln"
