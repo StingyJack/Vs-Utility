@@ -31,6 +31,15 @@ function Remove-AllProjectOutput
             }
         }
     }
+    elseif ($null -ne $projFileContent.Project.Sdk)
+    {
+        Write-Verbose "SDK Style project without named output paths detected, inferring default output paths"
+        $absoluteOutputPath = Join-Path -Path $projFileFolder  -ChildPath "bin"
+        Write-Host "Clearing $absoluteOutputPath"
+        Get-ChildItem $absoluteOutputPath -Include * -Recurse | ForEach-Object { if(Test-Path $_) {Remove-Item $_ -Force -Confirm:$false -Recurse -ErrorAction Continue } }  
+        $itemsRemain = @(Get-ChildItem -Path $absoluteOutputPath).Count
+        Write-Verbose "$($itemsRemain) items remaining"
+    }
 
     $objFolder = Join-Path -Path $projFileFolder -ChildPath "obj\"
     if (Test-Path $objFolder)
