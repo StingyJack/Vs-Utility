@@ -57,6 +57,8 @@ Export-ModuleMember -Function Update-SolutionTargetFramework
 . ("$PSScriptRoot\Update-BindingRedirect.ps1")
 Export-ModuleMember -Function Update-BindingRedirect
 
+. ("$PSScriptRoot\Write-AssemblyVersion.ps1")
+Export-ModuleMember -Function Write-AssemblyVersion
 
 #tooling
 
