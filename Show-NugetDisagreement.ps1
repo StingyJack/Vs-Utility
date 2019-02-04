@@ -46,6 +46,8 @@ function Show-NugetDisagreement
         $doesNuspecHaveReferencedPackage = $false
         Write-Verbose "evaluating referenced package $($referencedPackage.id) / $($referencedPackage.version)"
 
+        if ($referencedPackage.developmentDependency -eq $true) {continue}
+
         foreach ($nuspecDependencyPackage in $nuspec.package.metadata.dependencies.ChildNodes)
         {
             Write-Verbose "comparing nuspec dependency $($nuspecDependencyPackage.id) / $($nuspecDependencyPackage.version)"
