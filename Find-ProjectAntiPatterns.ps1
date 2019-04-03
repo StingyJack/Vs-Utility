@@ -15,6 +15,8 @@ function Find-ProjectAntiPatterns
 
     #projects with non-content things set to content (packages.config, *.snk, )  and published mistakenly
 
+    Find-NonContentContentIncludes $ProjFilePath
+
     $projFolder = Split-Path $ProjFilePath -Parent
 
     Show-NugetDisagreement -ProjectFolder $projFolder

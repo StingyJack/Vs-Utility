@@ -15,7 +15,9 @@ function Remove-AllProjectOutput
 
     $projFileFolder = Split-Path $projFilePath -Parent
     $projFileContent = [xml] (Get-Content $projFilePath)
-    $relativeOutputPaths = @($projFileContent.Project.PropertyGroup.OutputPath | Where-Object {[system.string]::IsNullOrWhiteSpace($_) -eq $false } | Get-Unique)
+    
+    #filter out empty or the "." paths that pyproj have by default
+    $relativeOutputPaths = @($projFileContent.Project.PropertyGroup.OutputPath | Where-Object {[system.string]::IsNullOrWhiteSpace($_) -eq $false -and ([string]::Equals($_, ".") -eq $false) } | Get-Unique)
     Write-Verbose "Project has $($relativeOutputPaths.Count) output paths"
     if ($relativeOutputPaths.Count -gt 0)
     {
