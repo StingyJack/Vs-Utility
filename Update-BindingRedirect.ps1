@@ -10,7 +10,8 @@ function Update-BindingRedirect
 {
     [CmdletBinding()]
     Param(
-
+        [Parameter(Mandatory=$false)]
+        [string]$ProjectName
     )
 
     $currentHost = Get-Host
@@ -39,6 +40,20 @@ function Update-BindingRedirect
     {
         $projectFolder = Split-Path -Path $projectFile -Parent
 
+        $thisProjectName = [IO.Path]::GetFileNameWithoutExtension($projectFile)
+        if ($null -ne $ProjectName)
+        {
+            if ($thisProjectName -ieq $ProjectName)
+            {
+                Write-Verbose "A specific project name has been requested ($ProjectName) and this name ($thisProjectName) matches it"
+            }
+            else
+            {
+                Write-Verbose "A specific project name has been requested ($ProjectName) and this name ($thisProjectName)does not match it"
+                continue
+            }
+        }
+
         $configFilePath = "$projectFolder\app.config"
         if (-Not(Test-Path $configFilePath))
         {
@@ -49,6 +64,9 @@ function Update-BindingRedirect
                 continue
             }
         }
+
+        # AutoGenerateBindingRedirects
+        $autoGenerateBindingRedirect = Get-ProjectPropertyValue -ProjectFilePath $projectFile -PropertyName AutoGenerateBindingRedirects
 
         Write-Verbose "Project file '$projectFile' has a config file at $configFilePath"
 
@@ -82,6 +100,14 @@ function Update-BindingRedirect
         Write-Verbose "Saving changes to file"
         $configFileContent.Save($configFilePath)
 
+        if ($null -ne $autoGenerateBindingRedirect -and $autoGenerateBindingRedirect -ieq "true")
+        {
+            Write-Verbose "Automatic generation of binding redirects is set for this project. Existing bindings `
+                                will be removed but none will be generated to replace them"
+        }
+
+        
+        Edit-TfVcFile -Path $configFilePath
         Write-Verbose "Invoking adding of assembly binding redirect"
         $projectName = [IO.Path]::GetFileNameWithoutExtension($projectFile)
         Add-BindingRedirect -ProjectName $projectName

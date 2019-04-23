@@ -21,6 +21,10 @@ Export-ModuleMember -Function Get-ProjectItems
 . ("$PSScriptRoot\Get-ProjectsWithProperty.ps1")
 Export-ModuleMember -Function Get-ProjectsWithProperty
 
+. ("$PSScriptRoot\Get-ProjectPropertyValue.ps1")
+Export-ModuleMember -Function Get-ProjectPropertyValue
+
+
 . ("$PSScriptRoot\Get-PrimaryProjectOutput.ps1")
 Export-ModuleMember -Function Get-PrimaryProjectOutput
 
