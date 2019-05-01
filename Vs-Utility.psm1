@@ -89,3 +89,7 @@ Export-ModuleMember -Function Show-NugetDisagreement
 
 . ("$PSScriptRoot\Find-SolutionAntipatterns.ps1")
 Export-ModuleMember -Function Find-SolutionAntipatterns
+
+. ("$PSScriptRoot\Get-TfExePath.ps1")
+Export-ModuleMember -Function Get-TfExePath
+
