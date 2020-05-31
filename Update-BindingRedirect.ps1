@@ -11,7 +11,7 @@ function Update-BindingRedirect
     [CmdletBinding()]
     Param(
         [Parameter(Mandatory=$false)]
-        [string]$ProjectName
+        [string]$SpecificProjectNameToTarget
     )
 
     $currentHost = Get-Host
@@ -35,21 +35,23 @@ function Update-BindingRedirect
     Write-Verbose "Current solution path '$($dte.Solution.FullName)'"
 
     $projectFiles = Get-ProjectFiles -SolutionFilePath $dte.Solution.FullName
-
+	
+	$updatedCount = 0
+	
     foreach($projectFile in $projectFiles)
     {
         $projectFolder = Split-Path -Path $projectFile -Parent
 
         $thisProjectName = [IO.Path]::GetFileNameWithoutExtension($projectFile)
-        if ($null -ne $ProjectName)
+        if ([string]::IsNullOrWhiteSpace($SpecificProjectNameToTarget) -eq $false)
         {
-            if ($thisProjectName -ieq $ProjectName)
+            if ($thisProjectName -ieq $SpecificProjectNameToTarget)
             {
-                Write-Verbose "A specific project name has been requested ($ProjectName) and this name ($thisProjectName) matches it"
+                Write-Verbose "A specific project name has been requested ($SpecificProjectNameToTarget) and this name ($thisProjectName) matches it"
             }
             else
             {
-                Write-Verbose "A specific project name has been requested ($ProjectName) and this name ($thisProjectName)does not match it"
+                Write-Verbose "A specific project name has been requested ($SpecificProjectNameToTarget) and this name ($thisProjectName)does not match it"
                 continue
             }
         }
@@ -95,7 +97,7 @@ function Update-BindingRedirect
         Write-Verbose "Removing assemblyBinding node from configuration.runtime element"
 
         $asmBindingNode = $configFileContent.configuration.runtime.assemblyBinding
-        $configFileContent.configuration.runtime.RemoveChild($asmBindingNode)
+        $configFileContent.configuration.runtime.RemoveChild($asmBindingNode) | Out-Null
 
         Write-Verbose "Saving changes to file"
         $configFileContent.Save($configFilePath)
@@ -111,5 +113,8 @@ function Update-BindingRedirect
         Write-Verbose "Invoking adding of assembly binding redirect"
         $projectName = [IO.Path]::GetFileNameWithoutExtension($projectFile)
         Add-BindingRedirect -ProjectName $projectName
+		$updatedCount++
     }
+	
+	Write-Output "Completed, $updatedCount projects updated"
 }

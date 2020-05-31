@@ -13,6 +13,7 @@ function Find-Shelveset
 {
     [CmdletBinding()]
     Param(
+        [string] $UserName,
         [switch] $IncludeGCI,
         [switch] $IncludeAutoShelve,
         [switch] $IncludeCodeReview
@@ -23,10 +24,10 @@ function Find-Shelveset
     Write-Verbose "Global progress preference was '$existingProgressPreference' and is now 'SilentlyContinue'"
     try
     {
-        $userName = "$([Environment]::UserDomainName)\$([Environment]::UserName)"
+        
         $projectCollectionUrls = Get-TfsTeamProjectCollectionUrlList
         $allShelveSets = @()
-        Write-Verbose "Finding shelvesets for $userName on $($projectCollectionUrls.Count) project collections"
+        Write-Verbose "Finding shelvesets for $UserName on $($projectCollectionUrls.Count) project collections"
 
         foreach ($projectCollectionUrl in $projectCollectionUrls)
         {
@@ -36,7 +37,7 @@ function Find-Shelveset
 
             while ($allDone -eq $false) {
 
-                $url = "$projectCollectionUrl/_apis/tfvc/shelvesets?owner=$userName&`$skip=$currentSkipValue"
+                $url = "$projectCollectionUrl/_apis/tfvc/shelvesets?owner=$UserName&`$skip=$currentSkipValue"
                 $resp = Invoke-WebRequest -Uri $url -UseDefaultCredentials
                 $shelveSetBlock = $resp.Content | ConvertFrom-Json
 
@@ -44,11 +45,19 @@ function Find-Shelveset
                 {
                     $shelveSetName = $shelveset.name
 
-                    #if (($shelveSetName.StartsWith("Gated", [System.StringComparison]::OrdinalIgnoreCase)) -or `
-                    #    ($shelveSetName.StartsWith("AUTOSHELVE", [System.StringComparison]::OrdinalIgnoreCase)))
-                    if ($shelveSetName.StartsWith("AUTOSHELVE", [System.StringComparison]::OrdinalIgnoreCase))
+                    if ($shelveSetName.StartsWith("AutoShelve", [System.StringComparison]::OrdinalIgnoreCase))
                     {
-                        continue
+                        if ($IncludeAutoShelve.IsPresent -eq $false) { continue }
+                    }
+
+                    if ($shelveSetName.StartsWith("Gated", [System.StringComparison]::OrdinalIgnoreCase))
+                    {
+                        if ($IncludeGCI.IsPresent -eq $false) { continue }
+                    }
+
+                    if ($shelveSetName.StartsWith("CodeReview", [System.StringComparison]::OrdinalIgnoreCase))
+                    {
+                        if ($IncludeCodeReview.IsPresent -eq $false) { continue }
                     }
 
                     if ($allShelveSets -notcontains $shelveSetName)

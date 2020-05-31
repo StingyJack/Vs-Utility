@@ -93,3 +93,8 @@ Export-ModuleMember -Function Find-SolutionAntipatterns
 . ("$PSScriptRoot\Get-TfExePath.ps1")
 Export-ModuleMember -Function Get-TfExePath
 
+. ("$PSScriptRoot\Get-VsInstallBasePath.ps1")
+Export-ModuleMember -Function Get-VsInstallBasePath
+
+
+

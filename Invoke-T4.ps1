@@ -20,8 +20,8 @@ function Invoke-T4
         Write-Verbose "Resolved folder '$searchPath'"
     }
     
-    $t4exePath = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\TextTransform.exe"
-    $tfExePath = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\tf.exe"
+    $t4exePath = Join-Path -Path (Get-VsInstallBasePath) -ChildPath "\Common7\IDE\TextTransform.exe"
+    $tfExePath = Get-TfExePath
     
     if ($IncludePackagesFolder.IsPresent)
     {
