@@ -2,13 +2,17 @@
     .SYNOPSIS
     Adds Resharper toggle button to the VS toolbar.
 
-    Currently is a string result so you can paste it into the package manager console. The powershell 
-    interactive window does not have a $DTE for some reason. 
-    
+	.EXAMPLE
+	From the package manager console...
+	
+		Add-ResharperToggleButton -VisualStudioDTE $dte
+
+	.NOTE
     Using the settings files included, you can also do something like this
     $dte.ExecuteCommand("Tools.ImportandExportSettings", @"/import:""C:\yourpath\LightTheme.vssettings""")
 
 #>
+$ErrorActionPreference = 'Stop'
 function Add-ResharperToggleButton
 {
     [CmdletBinding()]
@@ -16,18 +20,22 @@ function Add-ResharperToggleButton
         [object] $VisualStudioDTE
     )
 
-    #Add-Type $VisualStudioDTE.GetType().Assembly.Location
-$str = @"
-    `$cmdBarName = "R#"
-    `$cmdName = "ReSharper_ToggleSuspended"
-    `$cmdText = "R# Active"
-    `$toolbarType = [EnvDTE.vsCommandBarType]::vsCommandBarTypeToolbar
+	$typePath = $VisualStudioDTE.GetType().Assembly.Location
+	Write-Host "Adding dte types if not already present from `n`t '$typePath'"
+    Add-Type -Path "$typePath"
+    $cmdBarName = "R#"
+    $cmdName = "ReSharper_ToggleSuspended"
+    $cmdText = "R# Active"
+    $toolbarType = [EnvDTE.vsCommandBarType]::vsCommandBarTypeToolbar
     
-    `$cmdBar = `$dte.Commands.AddCommandBar(`$cmdBarName, `$toolbarType)
+	Write-Host "Creating command bar"
+    $cmdBar = $VisualStudioDTE.Commands.AddCommandBar($cmdBarName, $toolbarType)
 
-    `$cmdItem = `$dte.Commands.Item(`$cmdName).AddControl(`$cmdBar, 1)
-    `$cmdItem.Caption = `$cmdText
+	Write-Host "Creating Command Item"
+    $cmdItem = $VisualStudioDTE.Commands.Item($cmdName).AddControl($cmdBar, 1)
+	
+	Write-Host "Setting item caption"
+    $cmdItem.Caption = $cmdText
 
-"@
-return $str
+	Write-Host "Done"
 }

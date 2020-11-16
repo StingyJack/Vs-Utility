@@ -37,8 +37,11 @@ Export-ModuleMember -Function Get-TestProjectAssemblies
 . ("$PSScriptRoot\Get-WebProjectFiles.ps1")
 Export-ModuleMember -Function Get-WebProjectFiles
 
-. ("$PSScriptRoot\Get-TfsTeamProjectCollectionUrlList")
+. ("$PSScriptRoot\Get-TfsTeamProjectCollectionUrlList.ps1")
 Export-ModuleMember -Function Get-TfsTeamProjectCollectionUrlList
+
+. ("$PSScriptRoot\Get-ResharperToggleButtonCmdList.ps1")
+Export-ModuleMember -Function Get-ResharperToggleButtonCmdList
 
 
 #modifiers
