@@ -20,6 +20,10 @@ function Add-ResharperToggleButton
         [object] $VisualStudioDTE
     )
 
+    if ($Host.Name -ine "Package Manager Host"){
+        throw "This must be run from the Nuget Package Manager Console in order to access the necessary types"
+    }
+
 	$typePath = $VisualStudioDTE.GetType().Assembly.Location
 	Write-Host "Adding dte types if not already present from `n`t '$typePath'"
     Add-Type -Path "$typePath"
