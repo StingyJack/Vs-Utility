@@ -25,7 +25,7 @@ function Find-References
 
         foreach ($reference in $references)
         {
-            if ($reference.Include -match $ReferenceName)
+            if ($ReferenceName -eq "*" -or $reference.Include -match $ReferenceName)
             {
                 Write-Verbose "Match found for reference $($reference.Include)"
                 $props = @{'ProjectFile'=$projectFile;
