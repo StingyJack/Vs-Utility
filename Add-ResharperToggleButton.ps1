@@ -35,8 +35,16 @@ function Add-ResharperToggleButton {
 
     $cmdBar = $VisualStudioDTE.Commands | Where-Object { $_.Name -ieq $cmdBarName } | Select-Object -First 1
     if ($null -eq $cmdBar) {
-        Write-Host "Creating command bar"
-        $cmdBar = $VisualStudioDTE.Commands.AddCommandBar($cmdBarName, $toolbarType)
+		try {
+			Write-Host "Creating command bar"
+			$cmdBar = $VisualStudioDTE.Commands.AddCommandBar($cmdBarName, $toolbarType)
+		}
+		catch {
+			if ($_.Message -ilike "*Value does not fall within the expected range*")
+			{
+				throw "Resharper does not appear to be installed"
+			}	
+		}
     }
     
     try	{
@@ -44,7 +52,7 @@ function Add-ResharperToggleButton {
 		$cmdItem = $VisualStudioDTE.Commands.Item($cmdName).AddControl($cmdBar, 1)
 	}
 	catch {
-		if ($_.Message -ieq "Value does not fall within the expected range.")
+		if ($_.Message -ilike "*Value does not fall within the expected range*")
 		{
 			throw "Resharper does not appear to be installed"
 		}
