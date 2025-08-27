@@ -1,15 +1,35 @@
 ﻿<#
     .SYNOPSIS
-    Removes whitespace at the end of every line of text in a file
+    Removes whitespace at the end of every line of text in a file.
 
     .DESCRIPTION
-    This quickly fixes the extra tabs and spaces that IDE's add to the ends of lines or blank lines in powershell 
-    scripts. Those extra chars can cause loading or execution issues.
+    Fixes extra tabs and spaces that IDEs may add to the ends of lines or blank lines
+    in PowerShell scripts. These extra characters can cause loading or execution issues.
+    The function can automatically handle TFS checkout if needed.
 
+    .PARAMETER Path
+    The full path to the file from which to remove trailing whitespace.
 
-    .NOTE
-    Its using write-host to emit to the VS output window, as I have this configured in External Tools to run for the active document.  
+    .PARAMETER DontAttemptCheckout
+    Switch to prevent automatic TFS checkout attempt. If not specified, the function
+    will try to check out the file from TFS before making changes.
 
+    .EXAMPLE
+    Remove-TrailingWhitespace -Path "C:\Scripts\MyScript.ps1"
+    Removes trailing whitespace from the specified file, checking it out from TFS if needed.
+
+    .EXAMPLE
+    Remove-TrailingWhitespace -Path "C:\Scripts\MyScript.ps1" -DontAttemptCheckout
+    Removes trailing whitespace without attempting TFS checkout.
+
+    .OUTPUTS
+    Writes progress and results to the VS output window using Write-Host.
+
+    .NOTES
+    - Uses Write-Host for VS Output Window compatibility
+    - Configured for use as an External Tool in Visual Studio
+    - Preserves file content while removing only trailing spaces
+    - Handles TFS source control integration
 #>
 function Remove-TrailingWhitespace
 {

@@ -1,6 +1,45 @@
 ﻿<#
     .SYNOPSIS
-    Gets VS project <Item> elements from a project
+    Gets Visual Studio project <Item> elements from a project file.
+
+    .DESCRIPTION
+    Retrieves specific item types (Compile, Content, None, etc.) from a Visual Studio
+    project file. For each item found, returns detailed information including the full path,
+    relative path, link status, subtype, and output copy settings.
+
+    .PARAMETER ProjFilePath
+    The full path to the project file (.csproj, .vbproj, etc.) to analyze.
+
+    .PARAMETER ItemType
+    The type of items to retrieve. Must be one of:
+    - Compile: Source code files
+    - Content: Content files that are included in the project
+    - None: Miscellaneous files
+    - Analyzer: Code analysis tools
+    - Reference: Project references
+    - EmbeddedResource: Resources embedded in the assembly
+
+    .EXAMPLE
+    Get-ProjectItems -ProjFilePath "C:\Projects\MyApp\MyApp.csproj" -ItemType Content
+    Returns all content files in the project.
+
+    .EXAMPLE
+    Get-ProjectItems -ProjFilePath "C:\Projects\MyApp\MyApp.csproj" -ItemType Compile -Verbose
+    Returns all source code files with detailed progress information.
+
+    .OUTPUTS
+    Array of PSObjects with properties:
+    - FullName: Absolute path to the item
+    - Path: Project-relative path
+    - IsLinked: Whether the item is linked from outside the project
+    - Subtype: Item subtype (if any)
+    - CopyToOutputDirectory: Output directory copy setting
+
+    .NOTES
+    - Validates file existence for each item
+    - Warns about missing files
+    - Handles linked items
+    - Returns empty array if no matching items found
 #>
 function Get-ProjectItems {
     [CmdletBinding()]

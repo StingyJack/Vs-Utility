@@ -2,15 +2,26 @@
     .SYNOPSIS
     Adds Resharper toggle button to the VS toolbar.
 
-	.EXAMPLE
-	From the package manager console...
-	
-		Add-ResharperToggleButton -VisualStudioDTE $dte
+    .DESCRIPTION
+    Creates a toggle button in the Visual Studio toolbar that allows quick enabling/disabling of ReSharper functionality.
+    This function must be run from the Package Manager Console to access the necessary Visual Studio DTE types.
 
-	.NOTE
-    Using the settings files included, you can also do something like this
+    .PARAMETER VisualStudioDTE
+    The Visual Studio DTE (Development Tools Environment) object from the Package Manager Console ($dte).
+
+    .EXAMPLE
+    From the package manager console:
+    Add-ResharperToggleButton -VisualStudioDTE $dte
+
+    .EXAMPLE
+    Using with custom settings:
     $dte.ExecuteCommand("Tools.ImportandExportSettings", @"/import:""C:\yourpath\LightTheme.vssettings""")
+    Add-ResharperToggleButton -VisualStudioDTE $dte
 
+    .NOTES
+    - Must be run from Package Manager Console
+    - Requires ReSharper to be installed
+    - If button creation fails, you can delete it manually through toolbar customization
 #>
 $ErrorActionPreference = 'Stop'
 function Add-ResharperToggleButton {

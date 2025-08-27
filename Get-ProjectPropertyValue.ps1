@@ -1,15 +1,35 @@
 ﻿<#
     .SYNOPSIS
-    Gets a project property value (or values) that match a property name from a proj file
+    Gets a project property value (or values) that match a property name from a project file.
+
+    .DESCRIPTION
+    Retrieves the value of a specified property from a Visual Studio project file. The function
+    searches all PropertyGroup elements for the specified property name and returns its value(s).
+    Can return multiple values if the property exists in multiple PropertyGroup elements.
+
+    .PARAMETER ProjectFilePath
+    The full path to the project file (.csproj, .vbproj, etc.) to search for the property.
+
+    .PARAMETER PropertyName
+    The name of the property to find in the project file's PropertyGroup elements.
 
     .EXAMPLE
-    Get-ProjectPropertyValue -ProjectFilePath C:\code\repo\src\Project1\Project1.csproj -PropertyName AutoGenerateBindingRedirects -Verbose
-    
-    if the project does not have this property, $null will be returned
-    if the project does have this property in only one <PropertyGroup> its value will be returned as string
-    if the project does have this property more than one <PropertyGroup> the values will be returned as string[]
+    Get-ProjectPropertyValue -ProjectFilePath "C:\Projects\MyApp\MyApp.csproj" -PropertyName "TargetFramework"
+    Returns the target framework specified in the project.
 
-    
+    .EXAMPLE
+    Get-ProjectPropertyValue -ProjectFilePath "C:\Projects\MyApp\MyApp.csproj" -PropertyName "AutoGenerateBindingRedirects" -Verbose
+    Returns the binding redirects setting with detailed progress information.
+
+    .OUTPUTS
+    - Returns $null if the property is not found
+    - Returns a string if the property is found in one PropertyGroup
+    - Returns string[] if the property is found in multiple PropertyGroups
+
+    .NOTES
+    - Validates project file XML structure
+    - Case-sensitive property name matching
+    - Returns all instances of the property if found in multiple PropertyGroups
 #>
 
 function Get-ProjectPropertyValue

@@ -1,10 +1,31 @@
 ﻿<#
     .SYNOPSIS
-    This will disable assembly signing (strong naming) for a project if the attribute is present.
+    Disables assembly signing (strong naming) for a project if the attribute is present.
 
-    .PARAMETER $ProjFilePath
-    The path to the project file.
+    .DESCRIPTION
+    Modifies a project file to disable strong name signing by setting the SignAssembly
+    property to false in all non-conditional PropertyGroup elements. This is useful when
+    you need to temporarily disable strong naming for development or testing purposes.
 
+    .PARAMETER ProjFilePath
+    The full path to the project file (.csproj, .vbproj, etc.) where assembly signing
+    should be disabled.
+
+    .EXAMPLE
+    Disable-SignAssembly -ProjFilePath "C:\Projects\MyApp\MyApp.csproj"
+    Disables strong name signing for the specified project.
+
+    .EXAMPLE
+    Disable-SignAssembly -ProjFilePath "C:\Projects\MyApp\MyApp.csproj" -Verbose
+    Disables strong name signing with detailed progress information.
+
+    .OUTPUTS
+    Writes a message indicating whether the project file was updated or not.
+
+    .NOTES
+    - Only modifies non-conditional PropertyGroup elements
+    - Will not modify files that already have SignAssembly set to false
+    - Changes are saved directly to the project file
 #>
 function Disable-SignAssembly
 {

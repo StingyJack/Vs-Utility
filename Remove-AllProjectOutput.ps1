@@ -1,7 +1,27 @@
 <#
     .SYNOPSIS
-    Removes all project outputs regardless of build configuration, including the obj folder
+    Removes all project outputs regardless of build configuration, including the obj folder.
 
+    .DESCRIPTION
+    Cleans up build outputs for both traditional and SDK-style projects by removing contents
+    of all output directories and the obj folder. This is more thorough than a standard
+    clean as it removes outputs for all configurations and platforms.
+
+    .PARAMETER ProjFilePath
+    The full path to the project file (.csproj, .vbproj, etc.) whose outputs should be cleaned.
+
+    .EXAMPLE
+    Remove-AllProjectOutput -ProjFilePath "C:\Projects\MyApp\MyApp.csproj"
+    Removes all build outputs for the specified project.
+
+    .EXAMPLE
+    Remove-AllProjectOutput -ProjFilePath "C:\Projects\MyApp\MyApp.csproj" -Verbose
+    Removes all build outputs with detailed progress information.
+
+    .NOTES
+    - Works with both traditional and SDK-style projects
+    - Does not handle non-XML project files
+    - Uses force delete and will continue on errors
 #>
 
 function Remove-AllProjectOutput {
