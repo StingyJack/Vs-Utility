@@ -1,6 +1,32 @@
 ﻿<#
     .SYNOPSIS
-    Gets the primary output (a dll or exe) for a proj file.
+    Gets the primary output (dll, exe, or dacpac) for a Visual Studio project file.
+
+    .DESCRIPTION
+    This function analyzes a Visual Studio project file and determines the path to its primary output file
+    based on the project's configuration, platform, output type, and assembly name. It supports different
+    output types including libraries (DLL), executables (EXE), and database projects (DACPAC).
+
+    .PARAMETER ProjFilePath
+    The full path to the Visual Studio project file (.csproj, .vbproj, etc.).
+
+    .PARAMETER BuildConfiguration
+    The build configuration to use (e.g., Debug, Release).
+
+    .PARAMETER BuildPlatform
+    The platform target to use (e.g., "Any CPU", x86, x64).
+
+    .EXAMPLE
+    Get-PrimaryProjectOutput -ProjFilePath "C:\Projects\MyProject\MyProject.csproj" -BuildConfiguration "Release" -BuildPlatform "Any CPU"
+    Returns the full path to the primary output file for the specified project configuration.
+
+    .NOTES
+    - Returns null if the output file doesn't exist
+    - Automatically handles the conversion of "Any CPU" to "AnyCPU" in the configuration
+    - Supports different output types:
+      * Library projects (.dll)
+      * Executable projects (.exe)
+      * Database projects (.dacpac)
 #>
 function Get-PrimaryProjectOutput
 {

@@ -1,6 +1,23 @@
 ﻿<#
     .SYNOPSIS
-    Gets all the project file paths for a solution
+    Gets all the project file paths for a Visual Studio solution.
+
+    .DESCRIPTION
+    This function parses a Visual Studio solution file (.sln) and returns the full paths to all project 
+    files (.csproj, .vbproj, etc.) referenced in the solution. It validates that each project file exists
+    and only includes files that end with 'proj'.
+
+    .PARAMETER SolutionFilePath
+    The full path to the Visual Studio solution file (.sln) to analyze.
+
+    .EXAMPLE
+    $projects = Get-ProjectFiles -SolutionFilePath "C:\Projects\MySolution\MySolution.sln"
+    Returns an array of full paths to all project files in the solution.
+
+    .NOTES
+    - The function only returns paths to existing project files
+    - Project references that don't end in 'proj' are ignored
+    - Returns an empty array if no valid project files are found
 #>
 
 function Get-ProjectFiles

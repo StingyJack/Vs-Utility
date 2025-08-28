@@ -1,26 +1,33 @@
 ﻿<#
+    .SYNOPSIS
+    Removes a specific configuration from a project.
 
-    .SYNOPSYS
-    Removes a specific configuration from a project. 
+    .DESCRIPTION
+    This function removes a specific build configuration and platform target combination from a Visual Studio
+    project file. It can optionally backup the removed configuration elements to a specified file or folder.
 
-    .PARAMETER $ProjFilePath
-    The path to the project file
+    .PARAMETER ProjectFilePath
+    The full path to the Visual Studio project file (.csproj, .vbproj, etc.).
 
-    .PARAMETER $BuildConfiguration
-    Debug, Release, etc
+    .PARAMETER BuildConfiguration
+    The build configuration to remove (e.g., Debug, Release).
 
-    .PARAMETER $PlatformTarget
-    x86, x64, AnyCPU
+    .PARAMETER PlatformTarget
+    The platform target to remove (e.g., x86, x64, AnyCPU).
 
-    .PARAMETER $RemovedElementPath
-    If specified, the configuration elements that are removed are written to this path. It can be a file or folder. If folder, a file will be created with the removed config elements. If it is a file, the file will be appended.
+    .PARAMETER RemovedElementPath
+    If specified, the configuration elements that are removed are written to this path. 
+    It can be a file or folder. If folder, a file will be created with the removed config elements. 
+    If it is a file, the file will be appended.
 
-    .NOTE
-    Probably shouldnt run this while VS has the project open. 
+    .EXAMPLE
+    Remove-ProjectConfiguration -ProjectFilePath "C:\Projects\MyProject\MyProject.csproj" -BuildConfiguration "Debug" -PlatformTarget "x86"
+    Removes the Debug|x86 configuration from the specified project.
 
-    .NOTE
-    This would be part of an eventual "Normalize-ProjectConfiguration" that would update a solution and all projects to use the same set of build configs
-
+    .NOTES
+    - It is recommended to NOT run this while Visual Studio has the project open.
+    - This function is intended to be part of a future "Normalize-ProjectConfiguration" that would update 
+      a solution and all projects to use the same set of build configs.
 #>
 function Remove-ProjectConfiguration
 {
