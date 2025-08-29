@@ -1,6 +1,6 @@
 ﻿<#
     .SYNOPSIS
-    Runs all the test projects in the solution for the config/platform
+    Runs all the test projects in the solution for the config/platform. This predates `dotnet test`
 #>
 function Invoke-SolutionTests
 {

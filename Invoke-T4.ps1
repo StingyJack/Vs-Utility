@@ -21,7 +21,7 @@ function Invoke-T4
     }
     
     $t4exePath = Join-Path -Path (Get-VsInstallBasePath) -ChildPath "\Common7\IDE\TextTransform.exe"
-    $tfExePath = Get-TfExePath
+   # $tfExePath = Get-TfExePath
     
     if ($IncludePackagesFolder.IsPresent)
     {
@@ -53,7 +53,7 @@ function Invoke-T4
 
         if (Get-ItemProperty $outFile -Name IsReadOnly)
         {
-            & $tfExePath vc checkout $outFile
+            #& $tfExePath vc checkout $outFile
             #Set-ItemProperty $outFile -name IsReadOnly -value $false
         }
 
